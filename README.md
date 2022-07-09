@@ -24,7 +24,7 @@ $ sudo apt-get install openjdk-8-jdk
 $ sudo apt-get install kafka
 ```
 
-## compiling
+## Compile
 ```bash
 $ mvn clean compile assembly:single
 ```
