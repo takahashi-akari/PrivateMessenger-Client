@@ -1,4 +1,4 @@
-# PrivateMessener-Clint
+# PrivateMessenger-Client
 PrivateMessenger-Client with Kafka
 
 ## Description
