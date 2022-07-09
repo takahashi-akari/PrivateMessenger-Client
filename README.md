@@ -20,7 +20,7 @@ Kafka is a high-throughput, high-availability, and low-latency messaging system.
 Install the following packages:
 
 ```
-$ sudo apt-get install openjdk-11-jdk
+$ sudo apt-get install openjdk-8-jdk
 $ sudo apt-get install kafka
 ```
 
@@ -48,4 +48,4 @@ $ java -jar PrivateMessenger-Client.jar stop
 
 ## License
 MIT License
-copyright (c) 2020 [Takahashi Akari](https://github.com/takahashi-akari)
+copyright (c) 2022 [Takahashi Akari](https://github.com/takahashi-akari)
