@@ -24,12 +24,17 @@ $ sudo apt-get install openjdk-8-jdk
 $ sudo apt-get install kafka
 ```
 
+## compiling
+```bash
+$ mvn clean compile assembly:single
+```
+
 ## Usage
 ### Start
 Start the following commands:
 
 ```
-$ java -jar PrivateMessenger-Client.jar
+$ java -jar PrivateMessenger-Client-x.x.x-jar-with-dependencies.jar
 ```
 
 
@@ -37,7 +42,7 @@ $ java -jar PrivateMessenger-Client.jar
 Stop the following commands:
 
 ```
-$ java -jar PrivateMessenger-Client.jar stop
+$ java -jar PrivateMessenger-Client-x.x.x-jar-with-dependencies.jar stop
 ```
 
 ## Links
