@@ -1,2 +1,2 @@
-# PrivateMessengerClient
-PrivateMessengerClient with Kafka
+# PrivateMessenger-Client
+PrivateMessenger-Client with Kafka
