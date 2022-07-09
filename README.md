@@ -49,7 +49,7 @@ $ java -jar PrivateMessenger-Client-x.x.x-jar-with-dependencies.jar stop
 ## Links
 - [Kafka](https://kafka.apache.org/)
 - [PrivateMessenger](https://github.com/takahashi-akari/PrivateMessenger)
-- [PrivateMesenger-Client](https://github.com/takahashi-akari/PrivateMessenger-Client)
+- [PrivateMessenger-Client](https://github.com/takahashi-akari/PrivateMessenger-Client)
 - [PrivateMessenger-Server](https://github.com/takahashi-akari/PrivateMessenger-Server)
 - [JFrame OpenJDK](https://www.openjdk.java.net/projects/javafx/javafx-swing-components.html)
 - [Kafka Server](https://kafka.apache.org/documentation/)
