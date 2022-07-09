@@ -44,7 +44,7 @@ $ java -jar PrivateMessenger-Client.jar stop
 - [Kafka](https://kafka.apache.org/)
 - [PrivateMessenger](https://github.com/takahashi-akari/PrivateMessenger)
 - [PrivateMesenger-Client](https://github.com/takahashi-akari/PrivateMessenger-Client)
-- [PrivateMessenger-Server](https://githuc.com/takahashi-akari/PrivateMessenger-Server)
+- [PrivateMessenger-Server](https://github.com/takahashi-akari/PrivateMessenger-Server)
 
 ## License
 MIT License
