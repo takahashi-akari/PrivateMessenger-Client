@@ -1,7 +1,7 @@
 # PrivateMessenger-Client
 PrivateMessenger-Client with Kafka
 
-# This repository is currently incomplete.
+# This repository is incomplete now.
 
 ## Description
 PrivateMessenger with Kafka.  
