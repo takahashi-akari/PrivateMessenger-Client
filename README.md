@@ -1,6 +1,8 @@
 # PrivateMessenger-Client
 PrivateMessenger-Client with Kafka
 
+# This repository is currently incomplete.
+
 ## Description
 PrivateMessenger with Kafka.  
 The Linux client software and the Kafka server software are both written in Java.  
