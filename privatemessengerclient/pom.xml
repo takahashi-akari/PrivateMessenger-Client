@@ -6,7 +6,7 @@
 
   <groupId>mn.akari.maven.privatemessengerclient</groupId>
   <artifactId>PrivateMessenger-Client</artifactId>
-  <version>0.0.6</version>
+  <version>0.0.7</version>
 
   <name>PrivateMessenger-Client</name>
   <!-- FIXME change it to the project's website -->
