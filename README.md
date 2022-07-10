@@ -1,6 +1,8 @@
 # PrivateMessenger-Client
 PrivateMessenger-Client with Kafka
 
+# This repository is incomplete now.
+
 ## Description
 PrivateMessenger with Kafka.  
 The Linux client software and the Kafka server software are both written in Java.  
@@ -22,7 +24,6 @@ Install the following packages:
 
 ```
 $ sudo apt-get install openjdk-8-jdk
-$ sudo apt-get install kafka
 ```
 
 ## Compile
