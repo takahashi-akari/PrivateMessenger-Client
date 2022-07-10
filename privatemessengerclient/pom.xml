@@ -6,7 +6,7 @@
 
   <groupId>mn.akari.maven.privatemessengerclient</groupId>
   <artifactId>PrivateMessenger-Client</artifactId>
-  <version>0.0.7</version>
+  <version>0.0.8</version>
 
   <name>PrivateMessenger-Client</name>
   <!-- FIXME change it to the project's website -->
@@ -74,7 +74,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>mn.akari.maven.privatemessengerclient.Client</mainClass>
+                <mainClass>mn.akari.maven.privatemessengerclient.App</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>

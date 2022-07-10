@@ -19,6 +19,9 @@ Kafka is a high-throughput, high-availability, and low-latency messaging system.
 +----------------------+          +---------------------------+          +----------------------+ 
 ~~~
 
+## ScreenShot of the Client
+![screenshot](screenshot.png)
+
 ## Install
 Install the following packages:
 
