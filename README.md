@@ -22,7 +22,6 @@ Install the following packages:
 
 ```
 $ sudo apt-get install openjdk-8-jdk
-$ sudo apt-get install kafka
 ```
 
 ## Compile
