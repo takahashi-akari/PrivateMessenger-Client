@@ -1,5 +1,5 @@
 // @title Private Messenger Client
-// @version 0.0.8
+// @version 0.0.12
 // @author Takahashi Akari <akaritakahashioss@gmail.com>
 // @date 2022-07-09
 // @description This is a private messenger server. App.java contains main method.
@@ -50,13 +50,9 @@ public class App extends JFrame {
     private JButton btnConnect;
     private JButton btnDisconnect;
     private JButton btnExit;
-    private JButton btnClear;
     private JButton btnHelp;
     private JButton btnAbout;
-    private JButton btnSendFile;
-    private JButton btnReceiveFile;
-    private JButton btnSendMessage;
-    private JButton btnReceiveMessage;
+    private JButton btnReceive;
     
     private Socket socket;
     private BufferedReader in;
@@ -64,19 +60,21 @@ public class App extends JFrame {
     private Scanner scanner;
     private String host;
     private int port;
-    private String username;
-    private String password;
-    private String message;
-    private String file;
-    private String filePath;
-    private String fileName;
-    private String fileSize;
-    private String fileType;
-    private String fileReceived;
-    private String fileReceivedPath;
-    private String fileReceivedName;
-    private String fileReceivedSize;
-    private String fileReceivedType;
+    private String message = "";
+    // String is a class for string.
+    private String messageType = "";
+    // String is a class for string.
+    private String messageBody = "";
+    // String is a class for string.
+    private String messageResponse = "";
+    // String is a class for string.
+    private String messageError = "";
+    // String is a class for string.
+    private String messageNotification = "";
+    // String is a class for string.
+    private String messageRequest = "";
+    private String response = "";
+    private String receivedMessage = "";
     
     private boolean connected;
     
@@ -95,25 +93,26 @@ public class App extends JFrame {
     public App(String[] args) {
         setTitle("Private Messenger Client");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 550, 380);
+        setBounds(100, 100, 500, 350);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
-        
+
         textField = new JTextField();
         textField.setBounds(10, 227, 414, 20);
         contentPane.add(textField);
         textField.setColumns(10);
-        
+
         textArea = new JTextArea();
         textArea.setBounds(10, 11, 414, 204);
         contentPane.add(textArea);
-        
+        textArea.setLineWrap(true);
+
         scrollPane = new JScrollPane(textArea);
         scrollPane.setBounds(10, 11, 414, 204);
         contentPane.add(scrollPane);
-        
+
         btnSend = new JButton("Send");
         btnSend.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -122,7 +121,7 @@ public class App extends JFrame {
         });
         btnSend.setBounds(434, 227, 89, 23);
         contentPane.add(btnSend);
-        
+
         btnConnect = new JButton("Connect");
         btnConnect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -131,7 +130,7 @@ public class App extends JFrame {
         });
         btnConnect.setBounds(10, 248, 89, 23);
         contentPane.add(btnConnect);
-        
+
         btnDisconnect = new JButton("Disconnect");
         btnDisconnect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -150,22 +149,13 @@ public class App extends JFrame {
         btnExit.setBounds(208, 248, 89, 23);
         contentPane.add(btnExit);
 
-        btnClear = new JButton("Clear");
-        btnClear.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                clear();
-            }
-        });
-        btnClear.setBounds(307, 248, 89, 23);
-        contentPane.add(btnClear);
-
         btnHelp = new JButton("Help");
         btnHelp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 help();
             }
         });
-        btnHelp.setBounds(406, 248, 89, 23);
+        btnHelp.setBounds(307, 248, 89, 23);
         contentPane.add(btnHelp);
 
         btnAbout = new JButton("About");
@@ -174,50 +164,34 @@ public class App extends JFrame {
                 about();
             }
         });
-
-        btnAbout.setBounds(405, 11, 89, 23);
+        btnAbout.setBounds(406, 248, 89, 23);
         contentPane.add(btnAbout);
 
-        btnSendFile = new JButton("Send File");
-        btnSendFile.addActionListener(new ActionListener() {
+        btnReceive = new JButton("Receive");
+        btnReceive.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                sendFile();
+                receive();
             }
         });
+        btnReceive.setBounds(10, 270, 89, 23);
+        contentPane.add(btnReceive);
 
-        btnSendFile.setBounds(10, 268, 89, 23);
-        contentPane.add(btnSendFile);
+        WindowListener exitListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                exit();
+            }
+        };
+        addWindowListener(exitListener);
 
-        btnReceiveFile = new JButton("Receive File");
-        btnReceiveFile.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                receiveFile();
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    send();
+                }
             }
         });
-
-        btnReceiveFile.setBounds(109, 268, 89, 23);
-
-        contentPane.add(btnReceiveFile);
-
-        btnSendMessage = new JButton("Send Message");
-        btnSendMessage.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                sendMessage();
-            }
-        });
-
-        btnSendMessage.setBounds(208, 268, 89, 23);
-        contentPane.add(btnSendMessage);
-
-        btnReceiveMessage = new JButton("Receive Message");
-        btnReceiveMessage.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                receiveMessage();
-            }
-        });
-
-        btnReceiveMessage.setBounds(307, 268, 89, 23);
-        contentPane.add(btnReceiveMessage);
 
         if (args.length == 2) {
             host = args[0];
@@ -226,163 +200,65 @@ public class App extends JFrame {
             host = "localhost";
             port = 9999;
         }
-
         connected = false;
-        username = "";
-        password = "";
-        message = "";
-        file = "";
-        filePath = "";
-        fileName = "";
-        fileSize = "";
-        fileType = "";
-        fileReceived = "";
-        fileReceivedPath = "";
-        fileReceivedName = "";
-        fileReceivedSize = "";
-        fileReceivedType = "";
 
         setVisible(true);
 
+        if (args.length == 2) {
+            connect();
+        }
+
+        if (args.length == 1) {
+            if (args[0].equals("-h") || args[0].equals("--help")) {
+                help();
+            } else if (args[0].equals("-a") || args[0].equals("--about")) {
+                about();
+            }
+        }
+
+        if (args.length == 0) {
+            help();
+        }
+    }
+
+
+    protected void receive() {
+        // receive message from server with timeout
         try {
-            socket = new Socket(host, port);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
             scanner = new Scanner(socket.getInputStream());
-        } catch (Exception e) {
+            if (scanner.hasNextLine()) {
+                receivedMessage = scanner.nextLine();
+                textArea.append(receivedMessage + "\n");
+            }
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    while (true) {
-                        String line = in.readLine();
-                        if (line != null) {
-                            if (line.startsWith("#")) {
-                                if (line.startsWith("#CONNECTED")) {
-                                    connected = true;
-                                    username = line.substring(10);
-                                    textArea.append("Connected to server as " + username + "\n");
-                                } else if (line.startsWith("#DISCONNECTED")) {
-                                    connected = false;
-                                    username = "";
-                                    password = "";
-                                    message = "";
-                                    file = "";
-                                    filePath = "";
-                                    fileName = "";
-                                    fileSize = "";
-                                    fileType = "";
-                                    fileReceived = "";
-                                    fileReceivedPath = "";
-                                    fileReceivedName = "";
-                                    fileReceivedSize = "";
-                                    fileReceivedType = "";
-                                    textArea.append("Disconnected from server\n");
-                                } else if (line.startsWith("#MESSAGE")) {
-                                    textArea.append(line.substring(9) + "\n");
-                                } else if (line.startsWith("#FILE")) {
-                                    textArea.append(line.substring(7) + "\n");
-                                } else if (line.startsWith("#FILE_RECEIVED")) {
-                                    textArea.append(line.substring(14) + "\n");
-                                } else if (line.startsWith("#FILE_RECEIVED_ERROR")) {
-                                    textArea.append(line.substring(19) + "\n");
-                                } else if (line.startsWith("#FILE_RECEIVED_SUCCESS")) {
-                                    textArea.append(line.substring(20) + "\n");
-                                } else if (line.startsWith("#FILE_SENT")) {
-                                    textArea.append(line.substring(10) + "\n");
-                                } else if (line.startsWith("#FILE_SENT_ERROR")) {
-                                    textArea.append(line.substring(15) + "\n");
-                                } else if (line.startsWith("#FILE_SENT_SUCCESS")) {
-                                    textArea.append(line.substring(16) + "\n");
-                                } else if (line.startsWith("#FILE_SENT_PROGRESS")) {
-                                    textArea.append(line.substring(18) + "\n");
-                                } else if (line.startsWith("#FILE_RECEIVED_PROGRESS")) {
-                                    textArea.append(line.substring(21) + "\n");
-                                }
-                            } else {
-                                textArea.append(line + "\n");
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        setSize(500, 500);
-        setLocationRelativeTo(null);
-        setVisible(true);
-
-        setResizable(false);
-
-        setTitle("PrivateMessenger Client");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    protected void receiveMessage() {
-        if (connected) {
-            try {
-                String message = scanner.nextLine();
-                textArea.append(message + "\n");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    protected void sendMessage() {
-        if (connected) {
-            message = textField.getText();
-            if (message.length() > 0) {
-                out.println(message);
-                textField.setText("");
-            }
-        }
-    }
-
-
-    protected void receiveFile() {
-        if (connected) {
-            try {
-                fileReceived = scanner.nextLine();
-                textArea.append(fileReceived + "\n");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    protected void sendFile() {
-        if (connected) {
-            file = textField.getText();
-            if (file.length() > 0) {
-                out.println(file);
-                textField.setText("");
-            }
         }
     }
 
 
     protected void about() {
-        JOptionPane.showMessageDialog(this, "Private Messenger\nVersion 0.0.8\nCopyright (c) 2022 Takahashi Akari <https://takahashi-akari.github.io/PrivateMessenger/>\n\n");
+        JOptionPane.showMessageDialog(this, "Private Messenger Client\n" +
+            "Copyright (C) 2022  Takahashi Akari <akaritakahashioss@gmail.com>\n" +
+            "This program is free software: you can redistribute it and/or modify\n" +
+            "it under the terms of the GNU General Public License as published by\n" +
+            "the Free Software Foundation, either version 3 of the License, or\n" +
+            "(at your option) any later version.\n" +
+            "\n" +
+            "This program is distributed in the hope that it will be useful,\n" +
+            "but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" +
+            "GNU General Public License for more details.\n" +
+            "\n" +
+            "You should have received a copy of the GNU General Public License\n" +
+            "along with this program.  If not, see <http://www.gnu.org/licenses/>.",
+            "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
     protected void help() {
-        JOptionPane.showMessageDialog(this, "Private Messenger\nVersion 0.0.8\nCopyright (c) 2022 Takahashi Akari <https://takahashi-akari.github.io/PrivateMessenger/>\n\n");
-    }
-
-
-    protected void clear() {
-        textArea.setText("");
+        JOptionPane.showMessageDialog(this, "Usage: java -jar PrivateMessenger-Client-x.x.x-jar-with-dependencies [host] [port]\n" +
+            "Example: java -jar PrivateMessengerClient.jar localhost 9092",
+            "Help", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
@@ -396,49 +272,52 @@ public class App extends JFrame {
 
     protected void disconnect() {
         if (connected) {
-            out.println("DISCONNECT");
-            connected = false;
-            btnConnect.setText("Connect");
-            btnDisconnect.setEnabled(false);
-            btnSendFile.setEnabled(false);
-            btnReceiveFile.setEnabled(false);
-            btnSendMessage.setEnabled(false);
-            btnReceiveMessage.setEnabled(false);
-            btnSendFile.setEnabled(false);
-            btnReceiveFile.setEnabled(false);
-            btnSendMessage.setEnabled(false);
-            btnReceiveMessage.setEnabled(false);
-            btnClear.setEnabled(false);
-            btnExit.setEnabled(false);
-            btnAbout.setEnabled(false);
-            btnHelp.setEnabled(false);
-            textField.setEnabled(false);
-            textArea.setEnabled(false);
-            textField.setText("");
-            textArea.setText("");
-            username = "";
-            password = "";
-            message = "";
-            file = "";
-            filePath = "";
-            fileName = "";
-            fileSize = "";
-            fileType = "";
-            fileReceived = "";
-            fileReceivedPath = "";
-            fileReceivedName = "";
-            fileReceivedSize = "";
-            fileReceivedType = "";
+            try {
+                out.close();
+                in.close();
+                socket.close();
+                connected = false;
+                btnConnect.setEnabled(true);
+                btnDisconnect.setEnabled(false);
+                btnSend.setEnabled(false);
+                btnExit.setEnabled(true);
+                btnHelp.setEnabled(true);
+                btnAbout.setEnabled(true);
+                textField.setEnabled(false);
+                textArea.setEnabled(false);
+                textArea.setText("");
+                textField.setText("");
+                message = "";
+                response = "";
+                setTitle("Private Messenger Client");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-
     protected void connect() {
         if (!connected) {
-            username = textField.getText();
-            if (username.length() > 0) {
-                out.println(username);
+            try {
+                socket = new Socket(host, port);
+                out = new PrintWriter(socket.getOutputStream(), true);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                connected = true;
+                btnConnect.setEnabled(false);
+                btnDisconnect.setEnabled(true);
+                btnSend.setEnabled(true);
+                btnExit.setEnabled(false);
+                btnHelp.setEnabled(false);
+                btnAbout.setEnabled(false);
+                textField.setEnabled(true);
+                textArea.setEnabled(true);
+                textArea.setText("");
                 textField.setText("");
+                message = "";
+                response = "";
+                setTitle("Private Messenger Client - " + host + ":" + port);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -452,17 +331,4 @@ public class App extends JFrame {
             }
         }
     }
-
-
-    protected void receive() {
-        if (connected) {
-            try {
-                String message = scanner.nextLine();
-                textArea.append(message + "\n");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
-
