@@ -39,15 +39,7 @@ $ mvn clean compile assembly:single
 Start the following commands:
 
 ```
-$ java -jar PrivateMessenger-Client-x.x.x-jar-with-dependencies.jar
-```
-
-
-### Stop
-Stop the following commands:
-
-```
-$ java -jar PrivateMessenger-Client-x.x.x-jar-with-dependencies.jar stop
+$ java -jar PrivateMessenger-Client-x.x.x-jar-with-dependencies [host] [port]
 ```
 
 ## Links
